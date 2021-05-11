@@ -49,12 +49,23 @@ export const textNodesUnder = (node) => {
   return textNodesFound;
 }
 
+export const htmlToElement = (html) => {
+  var template = document.createElement('template');
+  html = html.trim();
+  template.innerHTML = html;
+  return template.content;
+}
+
 export const linkifyURLInNode = (node) => {
   var textNodes = textNodesUnder(node);
   textNodes.forEach((node) => {
+    const parentNode = node.parentNode;
     // linkify only if text node data is not whitespace or newline
-    if (!(/^\s*$/.test(node.data)) && node.parentNode) {
-      node.parentNode.innerHTML = linkify(node.wholeText);
+     if (!(/^\s*$/.test(node.data)) && parentNode) {
+      const nodeText = node.wholeText;
+      const linkifiedNodeText = linkify(nodeText);
+      const linkifiedNode = htmlToElement(linkifiedNodeText);
+      parentNode.replaceChild(linkifiedNode, node)
     }
   })
 }
