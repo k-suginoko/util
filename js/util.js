@@ -206,3 +206,12 @@ export const getMaxPage = (total, count) => {
     ? 1
     : Math.floor(total / count)
 }
+
+
+// 配列比較
+export const arrayEqual = (a, b) => {
+  if (!Array.isArray(a))    return false;
+  if (!Array.isArray(b))    return false;
+  if (a.length != b.length) return false;
+  return JSON.stringify(a) == JSON.stringify(b)
+}
